@@ -1,4 +1,4 @@
-# todoProject
+# TodoProject
 
 ## Project setup
 ```
