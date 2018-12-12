@@ -1,0 +1,68 @@
+.todo-discription-input,.todo-title-input,.todo-search-input {
+    width: 100%;
+    padding:  8px 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .card-properties{
+    margin: 8px 0px;
+  }
+  .header-title{
+    margin-bottom: 0px;
+  }
+  .remove-item{
+    cursor: pointer;
+    padding: 2px 8px;
+  
+  }
+  .item-left{
+    display:flex;
+    align-items: center;
+  }
+  .card-text{
+    padding: 10px 0px;
+    margin-bottom: 0px;
+  }
+  .card-discription-style{
+    font-size: 16px;
+    margin-bottom: 0px;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  }
+  .discription-edit{
+    font-size: 16px;
+    width: 100%;
+    padding: 10px 0px;
+    border: 1px solid #ccc;
+  }
+  .completedcard {
+    background-color: rgba(109, 108, 108, 0.212);
+    
+  }
+  .completedtext{
+    text-decoration: line-through;
+    color: rgba(109, 108, 108, 0.404);
+  }
+  .element-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;    
+  }
+  .check-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid lightgrey;
+      padding: 8px 8px;
+      margin: 8px 0px;   
+  }
+  .sort-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid lightgrey;
+      padding: 8px 8px;
+      margin-top: 8px;   
+  }
+  .sort-label{
+    margin-bottom:  0px;
+  }

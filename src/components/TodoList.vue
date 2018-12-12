@@ -22,29 +22,10 @@
     <b-row>
       <b-col cols="12">
         <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-        <div v-for="(todo,index) in todosFiltered" :key="todo.id" class="todo-item">
-          <div class="card-properties">
-            <b-card no-body :class="{completedcard: todo.completed}">
-              <b-card-header class="element-container">    
-                <h5 class="card-text" :class="{completedtext: todo.completed}">{{todo.title}}</h5>
-                <input type="checkbox" v-model="todo.completed" > 
-                </b-card-header>          
-                  <b-card-body >
-                    <div>
-                      <pre class="card-discription-style" v-if="!todo.editing" @dblclick="editTodo(todo)" :class="{completedtext: todo.completed}">{{todo.discription}}</pre>
-                      <textarea class="discription-edit" v-else type="text" v-model="todo.discription" v-focus></textarea>
-                    </div>  
-                  </b-card-body>
-                <b-card-footer class="footer element-container" >
-                  <b-button-group size="sm">
-                  <b-button variant="outline-success" class="remove-item shadow-none" @click="doneEdit(todo)">Сохранить</b-button>
-                  <b-button variant="outline-info" class="remove-item shadow-none" @click="cancelEdit(todo)">Отменить</b-button>
-                  </b-button-group>
-                  <b-button variant="outline-danger" class="remove-item" @click="removeTodo(index)">&times;</b-button>
-                </b-card-footer>
-            </b-card>
-          </div>  
-        </div>
+        <todo-item v-for="(todo,index) in todosFiltered" :key="todo.id" :todo="todo" :index="index" :checkAll="!anyRemaining"
+         @removeTodo="removeTodo" @finishedEdit="finishedEdit" >
+          
+        </todo-item>
          </transition-group>
       </b-col>
     </b-row>
@@ -52,8 +33,12 @@
 </template>
 
 <script>
+import TodoItem from './TodoItem'
 export default {
   name: 'todo-list',
+  components:{
+    TodoItem,
+  },
   data (){
     return{
       maxTitleLength: 26,
@@ -82,13 +67,6 @@ export default {
     anyRemaining(){
       return this.remaining !=0
     },
-  },
-  directives: {
-    focus: {
-      inserted: function (el) {
-        el.focus()
-      }
-    }
   },
   methods: {
     addTodo(){
@@ -129,6 +107,10 @@ export default {
     checkAllTodos(){
       this.todos.forEach((todo)=>todo.completed=event.target.checked)
     },
+    finishedEdit(data){
+      this.todos.splice(data.index, 1, data.todo)
+      this.applyFilter()
+    },
     applyFilter (filter = null) {
       let todosFiltered = [];
       if (filter !== null) {
@@ -148,7 +130,6 @@ export default {
       this.todosFiltered = todosFiltered.filter((todo)=>{
         return todo.title.match(this.search);
       })
-
     },
   },
   mounted (){
@@ -161,72 +142,5 @@ export default {
 <style scoped>
  @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css");
 
-.todo-discription-input,.todo-title-input,.todo-search-input {
-  width: 100%;
-  padding:  8px 8px;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-.card-properties{
-  margin: 8px 0px;
-}
-.header-title{
-  margin-bottom: 0px;
-}
-.remove-item{
-  cursor: pointer;
-  padding: 2px 8px;
-
-}
-.item-left{
-  display:flex;
-  align-items: center;
-}
-.card-text{
-  padding: 10px 0px;
-  margin-bottom: 0px;
-}
-.card-discription-style{
-  font-size: 16px;
-  margin-bottom: 0px;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-}
-.discription-edit{
-  font-size: 16px;
-  width: 100%;
-  padding: 10px 0px;
-  border: 1px solid #ccc;
-}
-.completedcard {
-  background-color: rgba(109, 108, 108, 0.212);
-  
-}
-.completedtext{
-  text-decoration: line-through;
-  color: rgba(109, 108, 108, 0.404);
-}
-.element-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;    
-}
-.check-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid lightgrey;
-    padding: 8px 8px;
-    margin: 8px 0px;   
-}
-.sort-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid lightgrey;
-    padding: 8px 8px;
-    margin-top: 8px;   
-}
-.sort-label{
-  margin-bottom:  0px;
-}
+@import url("../main.css");
 </style>
